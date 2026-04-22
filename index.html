@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bakery House - استبيان الموظفين الشامل</title>
+    <title>Bakery House - الاستبيان الشامل</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         :root { --bg: #0f0f0f; --card: #1a1a1a; --accent: #c8a96e; --text: #f0ece4; --border: #2e2e2e; }
@@ -11,52 +11,87 @@
         body { background: var(--bg); color: var(--text); padding: 40px 15px; }
         .container { max-width: 700px; margin: 0 auto; }
         .header { text-align: center; margin-bottom: 40px; }
-        .header h1 { color: var(--accent); font-size: 32px; font-weight: 900; }
+        .header h1 { color: var(--accent); font-size: 32px; font-weight: 900; margin-bottom: 10px; }
         .section { background: var(--card); border: 1px solid var(--border); border-radius: 15px; padding: 25px; margin-bottom: 30px; }
         .section-title { color: var(--accent); font-weight: 700; margin-bottom: 20px; border-bottom: 1px solid var(--border); padding-bottom: 10px; }
         .question { margin-bottom: 20px; }
         label { display: block; margin-bottom: 8px; font-weight: 600; font-size: 14px; color: #ccc; }
-        textarea, select { width: 100%; background: #0f0f0f; border: 1px solid var(--border); border-radius: 10px; padding: 12px; color: var(--text); outline: none; }
-        .submit-btn { width: 100%; padding: 20px; background: var(--accent); color: #000; border: none; border-radius: 12px; font-weight: 900; font-size: 18px; cursor: pointer; }
+        textarea, select, input { width: 100%; background: #0f0f0f; border: 1px solid var(--border); border-radius: 10px; padding: 12px; color: var(--text); outline: none; font-size: 14px; }
+        textarea:focus, input:focus { border-color: var(--accent); }
+        .submit-btn { width: 100%; padding: 20px; background: var(--accent); color: #000; border: none; border-radius: 12px; font-weight: 900; font-size: 18px; cursor: pointer; transition: 0.3s; }
+        .submit-btn:hover { background: #e8c97a; transform: translateY(-2px); }
     </style>
 </head>
 <body>
 <div class="container">
     <div class="header">
         <h1>صوتك يهمنا</h1>
-        <p>استبيان سري وشامل - Bakery House</p>
+        <p>استبيان سري لبناء بيئة عمل أفضل [cite: 3, 4]</p>
     </div>
 
     <form action="https://formspree.io/f/xgorpwwg" method="POST">
+        
         <div class="section">
-            <div class="section-title">☕ القسم الأول: عين الزبون</div>
-            <div class="question"><label>١. لو الزبون كتب مراجعة صادقة عنا اليوم، إيش بيكتب؟</label><textarea name="q1" required></textarea></div>
-            <div class="question"><label>٢. إيش اللي بيخلي الزبون يرجع مرة ثانية؟</label><textarea name="q2" required></textarea></div>
-            <div class="question"><label>٣. الزبون دايم يسأل عن شي أو يشتكي من شي؟</label><textarea name="q3" required></textarea></div>
+            <div class="section-title">👤 معلوماتك [cite: 5]</div>
+            <div class="question">
+                <label>اسمك الكامل (قبل البداية)[cite: 6, 7]:</label>
+                <input type="text" name="اسم_الموظف" placeholder="اكتب اسمك هنا...">
+            </div>
         </div>
 
         <div class="section">
-            <div class="section-title">⚡ القسم الثاني: الشغل اليومي</div>
-            <div class="question"><label>٤. خطوة بشغلك بتحس إنها بتضيع وقت؟</label><textarea name="q4" required></textarea></div>
-            <div class="question"><label>٥. لو قدرت تغير شي واحد بطريقة الشغل، إيش بيكون؟</label><textarea name="q5" required></textarea></div>
-            <div class="question"><label>٦. كيف تقيم بيئة الشغل عندنا؟</label><select name="q6"><option value="10">10 - ممتازة</option><option value="5">5 - متوسطة</option><option value="1">1 - سيئة</option></select></div>
+            <div class="section-title">☕ القسم الأول: عين الزبون [cite: 8]</div>
+            <div class="question"><label>١. لو الزبون كتب مراجعة صادقة عنا اليوم، إيش بيكتب؟ [cite: 9]</label><textarea name="q1" required></textarea></div>
+            <div class="question"><label>٢. إيش اللي بيخلي الزبون يرجع مرة ثانية؟ وإيش اللي بيخليه ما يرجع؟ [cite: 12]</label><textarea name="q2" required></textarea></div>
+            <div class="question"><label>٣. الزبون دايم يسأل عن شي أو يشتكي من شي؟ إيش هو؟ [cite: 14]</label><textarea name="q3" required></textarea></div>
         </div>
 
         <div class="section">
-            <div class="section-title">🏢 القسم الثالث: لو كنت صاحب المكان</div>
-            <div class="question"><label>٧. لو كنت المدير ليوم واحد، أول قرار بتاخذه إيش؟</label><textarea name="q7" required></textarea></div>
-            <div class="question"><label>٨. في شي شايفه كل يوم بيضيع فلوس على الشركة؟</label><textarea name="q8" required></textarea></div>
-            <div class="question"><label>٩. لو قدرت تضيف خدمة أو فكرة جديدة، إيش بتضيف؟</label><textarea name="q9" required></textarea></div>
+            <div class="section-title">⚡ القسم الثاني: الشغل اليومي [cite: 17]</div>
+            <div class="question"><label>٤. خطوة بشغلك بتحس إنها بتضيع وقت أو ممكن تتعمل بطريقة أذكى؟ [cite: 18]</label><textarea name="q4" required></textarea></div>
+            <div class="question"><label>٥. لو قدرت تغير شي واحد بطريقة الشغل، إيش بيكون؟ [cite: 20]</label><textarea name="q5" required></textarea></div>
+            <div class="question"><label>٦. كيف تقيم بيئة الشغل عندنا؟ [cite: 22]</label>
+                <select name="q6">
+                    <option value="ممتازة">ممتازة [cite: 31]</option>
+                    <option value="جيدة">جيدة</option>
+                    <option value="متوسطة">متوسطة</option>
+                    <option value="سيئة">سيئة</option>
+                </select>
+            </div>
         </div>
 
         <div class="section">
-            <div class="section-title">🔒 القسم الخامس: الصراحة الكاملة</div>
-            <div class="question"><label>١٥. إيش الشي اللي الكل عارفه بس ما حد بيحكيه؟</label><textarea name="q15" required></textarea></div>
-            <div class="question"><label>١٦. لو صديقك سألك "أشتغل هناك؟" إيش بتقوله بصدق؟</label><textarea name="q16" required></textarea></div>
-            <div class="question"><label>١٧. إيش محتاج يتغير عشان هالمكان يصير مكان أحلامك؟</label><textarea name="q17" required></textarea></div>
+            <div class="section-title">🏢 القسم الثالث: لو كنت صاحب المكان [cite: 32, 33]</div>
+            <div class="question"><label>٧. لو كنت المدير ليوم واحد، أول قرار بتاخذه إيش؟ [cite: 34]</label><textarea name="q7" required></textarea></div>
+            <div class="question"><label>٨. في شي شايفه كل يوم بيضيع فلوس على الشركة بس ما حد لاحظه؟ [cite: 36]</label><textarea name="q8" required></textarea></div>
+            <div class="question"><label>٩. لو قدرت تضيف خدمة أو فكرة جديدة للمكان، إيش بتضيف؟ [cite: 38]</label><textarea name="q9" required></textarea></div>
+            <div class="question"><label>١٠. شفت طريقة شغل بمكان ثاني وقلت "ليش ما عندنا هيك"؟ [cite: 40]</label><textarea name="q10" required></textarea></div>
         </div>
 
-        <button type="submit" class="submit-btn">✦ إرسال الاستبيان الكامل</button>
+        <div class="section">
+            <div class="section-title">🤝 القسم الرابع: الفريق والنمو [cite: 42, 43]</div>
+            <div class="question"><label>١١. إيش اللي لما بتيجي الشغل بيحمسك؟ [cite: 44]</label><textarea name="q11" required></textarea></div>
+            <div class="question"><label>١٢. إيش اللي بيخليك تحس إنك ما بدك تيجي؟ [cite: 46]</label><textarea name="q12" required></textarea></div>
+            <div class="question"><label>١٣. هل تحس إن الشركة بتستثمر فيك وبتطورك؟ [cite: 48]</label>
+                <select name="q13">
+                    <option value="نعم دائما">نعم دائماً [cite: 53]</option>
+                    <option value="أحيانا">أحياناً [cite: 54]</option>
+                    <option value="نادرا">نادراً [cite: 55]</option>
+                    <option value="لا">لا</option>
+                </select>
+            </div>
+            <div class="question"><label>١٤. إيش المهارة اللي لو تعلمتها بتقدر تفيد فريقك أكثر؟ [cite: 56]</label><textarea name="q14" required></textarea></div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">🔒 القسم الخامس: الصراحة الكاملة [cite: 58]</div>
+            <div class="question"><label>١٥. إيش الشي اللي الكل عارفه بس ما حد بيحكيه؟ [cite: 59]</label><textarea name="q15" required></textarea></div>
+            <div class="question"><label>١٦. لو صديقك سألك "أشتغل هناك؟" إيش بتقوله بصدق؟ [cite: 61]</label><textarea name="q16" required></textarea></div>
+            <div class="question"><label>١٧. إيش محتاج يتغير عشان هالمكان يصير مكان أحلامك؟ [cite: 63]</label><textarea name="q17" required></textarea></div>
+            <div class="question"><label>١٨. عندك أي فكرة أو اقتراح إضافي؟ </label><textarea name="q18"></textarea></div>
+        </div>
+
+        <button type="submit" class="submit-btn">✦ أرسل إجاباتي [cite: 67]</button>
     </form>
 </div>
 </body>

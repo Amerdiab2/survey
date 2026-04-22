@@ -1,142 +1,199 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>استبيان الموظفين</title>
-    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-    <script>
-        (function() {
-            emailjs.init("9hEiaDdCDACszilUM"); // الـ Public Key بتاعك
-        })();
-    </script>
-    <style>
-        /* التنسيقات العامة */
-        :root {
-            --bg: #0f0f0f;
-            --card: #1a1a1a;
-            --accent: #c8a96e;
-            --text: #ffffff;
-        }
-        body {
-            background-color: var(--bg);
-            color: var(--text);
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-        }
-        .survey-container {
-            width: 100%;
-            max-width: 600px;
-            background: var(--card);
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
-        .question-block { margin-bottom: 25px; }
-        .question-title { margin-bottom: 10px; display: block; font-weight: bold; }
-        input[type="text"], select, textarea {
-            width: 100%;
-            padding: 12px;
-            border-radius: 8px;
-            border: 1px solid #333;
-            background: #252525;
-            color: white;
-            box-sizing: border-box;
-        }
-        .submit-btn {
-            width: 100%;
-            padding: 15px;
-            background: var(--accent);
-            border: none;
-            border-radius: 8px;
-            color: black;
-            font-weight: bold;
-            font-size: 18px;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-        .submit-btn:disabled { background: #555; cursor: not-allowed; }
-        #successScreen { display: none; text-align: center; padding: 40px; }
-        .check-icon { font-size: 60px; color: #4CAF50; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>استبيان الموظفين</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+<script>
+  (function() {
+    emailjs.init("9hEiaDdCDACszilUM"); // الـ Key بتاعك يا عامر
+  })();
+</script>
+<style>
+  :root {
+    --bg: #0f0f0f;
+    --surface: #1a1a1a;
+    --card: #212121;
+    --border: #2e2e2e;
+    --accent: #c8a96e;
+    --accent-soft: rgba(200,169,110,0.12);
+    --accent-glow: rgba(200,169,110,0.25);
+    --text: #f0ece4;
+    --muted: #888;
+    --success: #4caf7d;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Cairo', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 40px 20px;
+    background-image: radial-gradient(ellipse at 20% 20%, rgba(200,169,110,0.04) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 80%, rgba(200,169,110,0.03) 0%, transparent 60%);
+  }
+
+  .container { max-width: 720px; margin: 0 auto; }
+  .header { text-align: center; margin-bottom: 50px; animation: fadeDown 0.7s ease; }
+  .logo-badge { display: inline-flex; align-items: center; gap: 8px; background: var(--accent-soft); border: 1px solid rgba(200,169,110,0.3); border-radius: 50px; padding: 6px 18px; font-size: 13px; color: var(--accent); font-weight: 600; letter-spacing: 0.05em; margin-bottom: 20px; }
+  .logo-badge::before { content: '◆'; font-size: 10px; }
+  h1 { font-size: clamp(28px, 5vw, 42px); font-weight: 900; color: var(--text); line-height: 1.2; margin-bottom: 12px; }
+  h1 span { color: var(--accent); }
+  .subtitle { color: var(--muted); font-size: 15px; font-weight: 300; max-width: 440px; margin: 0 auto; line-height: 1.7; }
+  .divider { width: 60px; height: 2px; background: linear-gradient(90deg, var(--accent), transparent); margin: 24px auto 0; border-radius: 2px; }
+  .progress-wrap { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 16px 24px; margin-bottom: 32px; display: flex; align-items: center; gap: 16px; animation: fadeUp 0.6s ease 0.1s both; }
+  .progress-bar-bg { flex: 1; height: 6px; background: var(--border); border-radius: 10px; overflow: hidden; }
+  .progress-bar-fill { height: 100%; background: linear-gradient(90deg, var(--accent), #e8c97a); border-radius: 10px; transition: width 0.5s cubic-bezier(0.4,0,0.2,1); width: 0%; }
+  .progress-text { font-size: 13px; color: var(--accent); font-weight: 700; white-space: nowrap; min-width: 50px; }
+  .section { background: var(--card); border: 1px solid var(--border); border-radius: 20px; padding: 32px; margin-bottom: 24px; animation: fadeUp 0.6s ease both; transition: border-color 0.3s; }
+  .section:hover { border-color: rgba(200,169,110,0.2); }
+  .section-header { display: flex; align-items: center; gap: 14px; margin-bottom: 28px; padding-bottom: 20px; border-bottom: 1px solid var(--border); }
+  .section-icon { width: 42px; height: 42px; background: var(--accent-soft); border: 1px solid rgba(200,169,110,0.25); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+  .section-title { font-size: 18px; font-weight: 700; color: var(--text); }
+  .section-num { font-size: 12px; color: var(--accent); font-weight: 600; margin-top: 2px; }
+  .q-label { font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: 12px; line-height: 1.5; display: flex; gap: 8px; }
+  .q-num { color: var(--accent); font-weight: 700; flex-shrink: 0; }
+  .scale-wrap { display: flex; gap: 8px; flex-wrap: wrap; }
+  .scale-wrap input { display: none; }
+  .scale-wrap label { width: 42px; height: 42px; border: 1px solid var(--border); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 700; cursor: pointer; transition: all 0.2s; color: var(--muted); }
+  .scale-wrap input:checked + label { background: var(--accent); border-color: var(--accent); color: #0f0f0f; box-shadow: 0 0 16px var(--accent-glow); }
+  .scale-labels { display: flex; justify-content: space-between; margin-top: 8px; font-size: 12px; color: var(--muted); }
+  textarea { width: 100%; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; color: var(--text); font-family: 'Cairo', sans-serif; font-size: 14px; resize: vertical; min-height: 90px; outline: none; line-height: 1.7; }
+  textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+  .radio-group { display: flex; flex-direction: column; gap: 10px; }
+  .radio-group input { display: none; }
+  .radio-group label { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border: 1px solid var(--border); border-radius: 12px; cursor: pointer; font-size: 14px; color: var(--muted); transition: all 0.2s; }
+  .radio-group label::before { content: ''; width: 18px; height: 18px; border: 2px solid var(--border); border-radius: 50%; flex-shrink: 0; }
+  .radio-group input:checked + label { border-color: var(--accent); background: var(--accent-soft); color: var(--text); }
+  .anon-badge { display: flex; align-items: center; gap: 10px; background: rgba(76,175,125,0.08); border: 1px solid rgba(76,175,125,0.2); border-radius: 12px; padding: 12px 16px; font-size: 13px; color: var(--success); margin-bottom: 32px; animation: fadeUp 0.6s ease 0.2s both; }
+  .submit-btn { width: 100%; padding: 18px; background: linear-gradient(135deg, var(--accent), #e8c97a); border: none; border-radius: 14px; font-family: 'Cairo', sans-serif; font-size: 17px; font-weight: 700; color: #0f0f0f; cursor: pointer; box-shadow: 0 4px 24px var(--accent-glow); animation: fadeUp 0.6s ease 0.3s both; }
+  .success-screen { display: none; text-align: center; padding: 60px 40px; background: var(--card); border: 1px solid rgba(76,175,125,0.3); border-radius: 24px; animation: fadeUp 0.6s ease; }
+  @keyframes fadeDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+</style>
 </head>
 <body>
+<div class="container">
+  <div class="header">
+    <div class="logo-badge">Bakery House & Movie House</div>
+    <h1>صوتك <span>يهمنا</span></h1>
+    <p class="subtitle">استبيان سري لمعرفة أفكارك وآرائك — مع بعض نبني شركة أحسن</p>
+    <div class="divider"></div>
+  </div>
 
-<div class="survey-container">
-    <div id="successScreen">
-        <div class="check-icon">✅</div>
-        <h2>شكراً على صراحتك يا بطل!</h2>
-        <p>تم إرسال إجاباتك بنجاح لـ "اللمبة" عامر.</p>
+  <div class="progress-wrap">
+    <span style="font-size:13px;color:var(--muted)">التقدم</span>
+    <div class="progress-bar-bg"><div class="progress-bar-fill" id="progressFill"></div></div>
+    <span class="progress-text" id="progressText">0%</span>
+  </div>
+
+  <div class="anon-badge">🔒 هذا الاستبيان سري تماماً — إجاباتك لن تُنسب إليك</div>
+
+  <form id="surveyForm">
+    <div class="section">
+      <div class="section-header"><div class="section-icon">☕</div><div><div class="section-title">عين الزبون</div><div class="section-num">القسم الأول</div></div></div>
+      <div class="question"><div class="q-label"><span class="q-num">١.</span> لو الزبون كتب مراجعة صادقة عنّا اليوم، إيش بيكتب؟</div><textarea name="q1" placeholder="اكتب بصراحة..."></textarea></div>
+      <div class="question"><div class="q-label"><span class="q-num">٢.</span> إيش اللي بيخلي الزبون يرجع مرة ثانية؟ وإيش اللي بيخليه ما يرجع؟</div><textarea name="q2" placeholder="من خبرتك..."></textarea></div>
+      <div class="question"><div class="q-label"><span class="q-num">٣.</span> الزبون دايم يسأل عن شي أو يشتكي من شي؟ إيش هو؟</div><textarea name="q3" placeholder="أي ملاحظة..."></textarea></div>
     </div>
 
-    <form id="surveyForm" onsubmit="event.preventDefault(); return false;">
-        <h2>استبيان تقييم الموظفين 💡</h2>
-        
-        <div class="question-block">
-            <label class="question-title">اسم الموظف:</label>
-            <input type="text" name="employee_name" required placeholder="اكتب اسمك هنا...">
+    <div class="section">
+      <div class="section-header"><div class="section-icon">⚡</div><div><div class="section-title">الشغل اليومي</div><div class="section-num">القسم الثاني</div></div></div>
+      <div class="question"><div class="q-label"><span class="q-num">٤.</span> في خطوة بشغلك بتحس إنها بتضيّع وقت؟</div><textarea name="q4" placeholder="روتين شغلك..."></textarea></div>
+      <div class="question"><div class="q-label"><span class="q-num">٥.</span> لو قدرت تغير شي واحد بطريقة الشغل؟</div><textarea name="q5" placeholder="الأهم عندك..."></textarea></div>
+      <div class="question">
+        <div class="q-label"><span class="q-num">٦.</span> كيف تقيّم بيئة الشغل عندنا؟</div>
+        <div class="scale-wrap">
+          <input type="radio" name="q6" id="q6_1" value="1"><label for="q6_1">١</label>
+          <input type="radio" name="q6" id="q6_5" value="5"><label for="q6_5">٥</label>
+          <input type="radio" name="q6" id="q6_10" value="10"><label for="q6_10">١٠</label>
         </div>
+        <div class="scale-labels"><span>ضعيفة</span><span>ممتازة</span></div>
+      </div>
+    </div>
 
-        <div class="question-block">
-            <label class="question-title">1. كيف تقيم بيئة العمل؟</label>
-            <select name="q1">
-                <option value="ممتازة">ممتازة</option>
-                <option value="جيدة">جيدة</option>
-                <option value="تحتاج تطوير">تحتاج تطوير</option>
-            </select>
+    <div class="section">
+      <div class="section-header"><div class="section-icon">🧠</div><div><div class="section-title">لو كنت صاحب المكان</div><div class="section-num">القسم الثالث</div></div></div>
+      <div class="question"><div class="q-label"><span class="q-num">٧.</span> لو كنت المدير ليوم واحد؟</div><textarea name="q7" placeholder="أول قرار..."></textarea></div>
+      <div class="question"><div class="q-label"><span class="q-num">٨.</span> شي بيضيّع فلوس وما حد لاحظه؟</div><textarea name="q8"></textarea></div>
+      <div class="question"><div class="q-label"><span class="q-num">٩.</span> إضافة خدمة جديدة؟</div><textarea name="q9"></textarea></div>
+    </div>
+
+    <div class="section">
+      <div class="section-header"><div class="section-icon">🚀</div><div><div class="section-title">الفريق والنمو</div><div class="section-num">القسم الرابع</div></div></div>
+      <div class="question"><div class="q-label"><span class="q-num">١١.</span> إيش اللي بيحمسك للشغل؟</div><textarea name="q11"></textarea></div>
+      <div class="question"><div class="q-label"><span class="q-num">١٣.</span> هل الشركة بتستثمر فيك؟</div>
+        <div class="radio-group">
+          <input type="radio" name="q13" id="q13_1" value="نعم دايماً"><label for="q13_1">نعم دايماً</label>
+          <input type="radio" name="q13" id="q13_4" value="لا"><label for="q13_4">لا</label>
         </div>
+      </div>
+    </div>
 
-        <div class="question-block">
-            <label class="question-title">2. ملاحظات إضافية:</label>
-            <textarea name="q2" rows="3"></textarea>
-        </div>
+    <div class="section">
+      <div class="section-header"><div class="section-icon">💎</div><div><div class="section-title">الصراحة الكاملة</div><div class="section-num">القسم الخامس</div></div></div>
+      <div class="question"><div class="q-label"><span class="q-num">١٥.</span> إيش الشي اللي الكل عارفه بس ما حد بيحكيه؟</div><textarea name="q15" placeholder="اكتب بجرأة..."></textarea></div>
+      <div class="question"><div class="q-label"><span class="q-num">١٨.</span> اقتراح إضافي؟</div><textarea name="q18"></textarea></div>
+    </div>
 
-        <button type="submit" id="submitBtn" class="submit-btn">✦ أرسل إجاباتي</button>
-    </form>
+    <button type="submit" id="submitBtn" class="submit-btn">✦ أرسل إجاباتي</button>
+  </form>
+
+  <div class="success-screen" id="successScreen">
+    <span class="success-icon">✅</span>
+    <h2>شكراً على صراحتك!</h2>
+    <p>إجاباتك وصلت وراح تساعدنا نبني بيئة شغل أحسن 🙏</p>
+  </div>
 </div>
 
 <script>
-    const form = document.getElementById('surveyForm');
-    const btn = document.getElementById('submitBtn');
+  const form = document.getElementById('surveyForm');
+  const btn = document.getElementById('submitBtn');
+  const fill = document.getElementById('progressFill');
+  const progressText = document.getElementById('progressText');
 
-    form.addEventListener('submit', function(e) {
-        e.preventDefault();
+  // التقدم
+  form.addEventListener('input', () => {
+    let answered = 0;
+    form.querySelectorAll('textarea').forEach(t => { if(t.value.trim().length > 2) answered++; });
+    if(form.querySelector('input[name="q6"]:checked')) answered++;
+    if(form.querySelector('input[name="q13"]:checked')) answered++;
+    const pct = Math.round((answered / 14) * 100);
+    fill.style.width = pct + '%';
+    progressText.textContent = pct + '%';
+  });
 
-        btn.textContent = '⏳ جاري الإرسال...';
-        btn.disabled = true;
+  // الإرسال
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    btn.textContent = '⏳ جاري الإرسال...';
+    btn.disabled = true;
 
-        const data = new FormData(form);
-        const employeeName = data.get('employee_name');
-        let messageBody = 👤 الموظف: ${employeeName}\n\n;
+    const data = new FormData(form);
+    let messageBody = "نتائج الاستبيان الجديد:\n\n";
+    for (let [k, v] of data.entries()) { messageBody += ${k}: ${v}\n; }
 
-        // تجميع كل البيانات من الفورم تلقائياً
-        for (let [key, value] of data.entries()) {
-            if(key !== 'employee_name') {
-                messageBody += ❓ ${key}: ${value}\n;
-            }
-        }
-
-        // الإرسال لـ EmailJS
-        emailjs.send('service_9eckxxk', 'template_4urs27l', {
-            message: messageBody,
-            name: employeeName
-        })
-        .then(() => {
-            form.style.display = 'none';
-            document.getElementById('successScreen').style.display = 'block';
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        })
-        .catch((err) => {
-            console.error('Error:', err);
-            alert('حصل مشكلة في الإرسال.. اتأكد من النت وحاول تاني');
-            btn.textContent = '✦ أرسل إجاباتي';
-            btn.disabled = false;
-        });
+    emailjs.send('service_9eckxxk', 'template_4urs27l', {
+      message: messageBody,
+      name: "موظف مجهول"
+    })
+    .then(() => {
+      form.style.display = 'none';
+      document.querySelector('.progress-wrap').style.display = 'none';
+      document.querySelector('.anon-badge').style.display = 'none';
+      document.getElementById('successScreen').style.display = 'block';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    })
+    .catch((err) => {
+      alert('مشكلة بالإرسال، جرب ثاني');
+      btn.textContent = '✦ أرسل إجاباتي';
+      btn.disabled = false;
     });
+  });
 </script>
-
 </body>
 </html>
